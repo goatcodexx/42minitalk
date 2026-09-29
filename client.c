@@ -6,7 +6,7 @@
 /*   By: sywee <sywee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/24 21:29:47 by sywee             #+#    #+#             */
-/*   Updated: 2026/09/24 22:03:17 by sywee            ###   ########.fr       */
+/*   Updated: 2026/09/29 17:55:15 by sywee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void    send_char(int pid, int character)
     while (bits >= 0)
     {
         if ((character >> bits) & 1)
-            kill(pid, SIGUSR2);
-        else
             kill(pid, SIGUSR1);
+        else
+            kill(pid, SIGUSR2);
         usleep(1000);
         bits--;
     }
@@ -46,12 +46,11 @@ void    send_msg(int pid, char *message)
 int main(int ac, char *av[])
 {
     int     pid;
-    char*   message;
     
     if (ac != 3)
         return (1);
     pid = ft_atoi(av[1]);
-    message = av[2];
     if (pid <= 0)
         return (1);
+    send_msg(pid, av[2]);
 }
